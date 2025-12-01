@@ -9,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/Card";
+import { Minus, Plus } from "lucide-react";
 
 export default function Counter() {
   const [count, setCount] = useState(0);
@@ -27,14 +28,14 @@ export default function Counter() {
           variant="outline"
           onClick={() => setCount(count - 1)}
         >
-          -
+          <Minus />
         </Button>
         <Button
           size="icon-lg"
           variant="outline"
           onClick={() => setCount(count + 1)}
         >
-          +
+          <Plus />
         </Button>
       </CardFooter>
     </Card>
