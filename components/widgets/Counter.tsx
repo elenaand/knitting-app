@@ -42,6 +42,7 @@ export default function Counters() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [name, setName] = useState("Antall");
 
   function saveCounters(updatedCounters: CounterContent[]) {
@@ -54,12 +55,19 @@ export default function Counters() {
     saveCounters(updatedCounters);
   }
 
+  function updateCounter(id: string, newCount: number) {
+    const updatedCounters = counters.map((counter) =>
+      counter.id === id ? { ...counter, count: newCount } : counter
+    );
+    saveCounters(updatedCounters);
+  }
+
   return (
     <div className="flex flex-col gap-4">
       <h2 className="max-w-xs text-2xl font-semibold leading-10 tracking-tight text-primary underline underline-offset-4 decoration-wavy decoration-pink dark:text-zinc-50">
         Tellere
       </h2>
-      <Dialog>
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <form>
           <DialogTrigger asChild>
             <Button variant="default">Legg til teller</Button>
@@ -100,6 +108,7 @@ export default function Counters() {
                     { id: crypto.randomUUID(), name: name, count: 0 },
                   ]);
                   setName("Antall");
+                  setDialogOpen(false);
                 }}
               >
                 Legg til teller <Plus />
@@ -121,6 +130,9 @@ export default function Counters() {
             name={counter.name}
             initialCount={counter.count}
             onDelete={() => deleteCounter(counter.id)}
+            updateCounter={(newCount: number) =>
+              updateCounter(counter.id, newCount)
+            }
           />
         ))}
       </div>
@@ -128,20 +140,16 @@ export default function Counters() {
   );
 }
 
-// TODO day 2 - Multiple counters
-// Data structure { id: string; count: number, name: string }[]
-// Persistens local storage
-// Add counter
-// Remove counter
-
 function Counter({
   name,
   onDelete,
   initialCount,
+  updateCounter,
 }: {
   name: string;
   onDelete: () => void;
   initialCount?: number;
+  updateCounter: (newCount: number) => void;
 }) {
   const [count, setCount] = useState(initialCount ?? 0);
   return (
@@ -165,14 +173,20 @@ function Counter({
         <Button
           size="icon-lg"
           variant="outline"
-          onClick={() => setCount(count - 1)}
+          onClick={() => {
+            setCount(count - 1);
+            updateCounter(count - 1);
+          }}
         >
           <Minus />
         </Button>
         <Button
           size="icon-lg"
           variant="outline"
-          onClick={() => setCount(count + 1)}
+          onClick={() => {
+            setCount(count + 1);
+            updateCounter(count + 1);
+          }}
         >
           <Plus />
         </Button>
