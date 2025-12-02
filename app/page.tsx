@@ -1,4 +1,4 @@
-import Counter from "@/components/widgets/Counter";
+import Counters from "@/components/widgets/Counter";
 
 export default function Home() {
   return (
@@ -13,7 +13,7 @@ export default function Home() {
           </p>
         </div>
         <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <Counter />
+          <Counters />
         </div>
       </main>
     </div>
