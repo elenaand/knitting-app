@@ -118,7 +118,7 @@ export default function Counters() {
         </form>
       </Dialog>
 
-      <div className="flex gap-4">
+      <div className="flex gap-4 flex-wrap">
         {counters.length === 0 && (
           <p className="text-sm text-muted-foreground">
             Ingen tellere lagt til enda.
@@ -153,10 +153,10 @@ function Counter({
 }) {
   const [count, setCount] = useState(initialCount ?? 0);
   return (
-    <Card>
-      <CardHeader className="flex flex-col items-center justify-center min-w-[180px] gap-6">
+    <Card className="w-full md:max-w-[180px]">
+      <CardHeader className="flex flex-col items-center justify-center min-w-[180px]  gap-6">
         <div className="flex justify-between items-center w-full">
-          <CardTitle>{name}</CardTitle>
+          <CardTitle className="text-sm">{name}</CardTitle>
           <Button
             size="icon-sm"
             variant="ghost"
